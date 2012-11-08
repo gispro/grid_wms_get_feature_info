@@ -42,6 +42,12 @@ gxp.plugins.GridWmsFeatureInfo = Ext.extend(gxp.plugins.WMSGetFeatureInfo, {
      */
     popupCache: null,
 
+	ascText: "Sort ascending",
+	descText: "Sort descending",
+	colText: "Columns",
+	groupByText: "Group by this field",
+	showGroupsText: "Show is groups",
+	
     /** api: config[infoActionTip]
      *  ``String``
      *  Text for feature info action tooltip (i18n).
@@ -362,7 +368,20 @@ gxp.plugins.GridWmsFeatureInfo = Ext.extend(gxp.plugins.WMSGetFeatureInfo, {
                                     plugins: plugins,                                    
                                     store: store,
                                     view: groupingView,
-                                    columns: columns
+                                    columns: columns,					
+									listeners: {
+										scope: this,				
+										afterrender: function() {
+											var menu = grid.getView().hmenu.items;				
+											for (var i in menu.items) {
+												if (menu.items[i].itemId=="asc") menu.items[i].text = this.ascText;
+												else if (menu.items[i].itemId=="desc") menu.items[i].text = this.descText;
+												else if (menu.items[i].itemId=="columns") menu.items[i].text = this.colText;
+												else if (menu.items[i].itemId=="groupBy") menu.items[i].text = this.groupByText;
+												else if (menu.items[i].itemId=="showGroups") menu.items[i].text = this.showGroupsText;
+											}
+										}
+									}
                                 });           
                                 
                                 this.displayPopup(
